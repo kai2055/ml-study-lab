@@ -6,6 +6,7 @@ Attempt all of these before scrolling past the divider. Write concept answers in
 ## Concept questions
 
 1. Explain in one paragraph why `arr * 2` is roughly 70× faster than `[x * 2 for x in lst]` for a million-element sequence. Reference both *contiguous memory* and *interpreted vs compiled execution* in your answer.
+- arr * 2 is faster because ndarray that is used in this process is a contiguous memory which means there are no overheads like in trying to findout the memory pointer pointng to another value, trying to find out the type of the value beofore operating and then there is also the case of having to interpret the code one instruction at a time whereas in ndarray which is the case for arr*2 c loop is carried out which is faster and optimized and there are not addtional overheads because the memory is contiguous giving O(n) access.
 
 2. You see this in a teammate's code:
 ```python
@@ -14,8 +15,10 @@ Attempt all of these before scrolling past the divider. Write concept answers in
    print(arr)
 ```
    What gets printed, and why? What's the fix?
+   - None gets printed because sort() modifies the original list and returns None, one solution could be using sorted() instead since it creats a new list
 
 3. A junior engineer says: "We should always use `float32` instead of `float64` because it uses half the memory." Give two reasons this is not always good advice in an ML pipeline.
+- Precision might be lost
 
 ## Code problems
 
@@ -28,9 +31,53 @@ Write a function `safe_array(data, dtype=None)` that:
 - If `dtype` is `None`, infers the dtype from the data.
 - Raises a clear `ValueError` with a helpful message if the input cannot be converted to a numeric array (e.g., contains strings that aren't numeric).
 
+"""
+def safe_array(data, dtype=None):
+    """Function that accepts any squence-like input and converts it into NumPy array."""
+    try:
+
+    if dtype == None:
+        typ = data.dtype
+        arr = np.asarray(data, dtype=typ)
+    except ValueError as e:
+        Print("Input cannot be converted)
+    
+    arr = np.asarray(data, dtype=dtype)
+    return arr
+
+    """
+
+
+    
+
+
+
 **Problem 2 — Memory budget checker**
 
 Write a function `fits_in_memory(n_rows, n_features, dtype, budget_mb)` that returns `True` if a `(n_rows, n_features)` array of the given dtype would fit within `budget_mb` megabytes, `False` otherwise. Don't actually allocate the array — compute the size from the dtype's `itemsize` attribute. Then write a small demo that shows how many `float64` rows of 100 features fit in a 512 MB budget.
+"""
+def fits_in_memory(
+    n_rows: int,
+    n_features: int,
+    dtype = dtype,
+    budget_mb:
+
+) -> boolean:
+arr = np.zeros((n_rows, n_features)).astype(dtype)
+memory = arr.nbytes
+
+if arr =< budget_mb:
+    return True
+else False
+"""
+
+
+
+
+
+
+
+
 
 ---
 ---
