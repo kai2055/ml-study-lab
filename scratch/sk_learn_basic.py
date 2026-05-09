@@ -30,6 +30,8 @@ import pandas as pd                                     # to hold our tiny demo 
 import joblib
 import os
 from pathlib import Path
+import mlflow
+
 
 
 BASE_DIR = Path(__file__).parent
@@ -70,15 +72,15 @@ pipeline = Pipeline(
     ]
 )
 
+mlflow.set_tracking_uri(f"sqlite:///{BASE_DIR}/mlruns")
+mlflow.set_experiment("datatroniq-credit-risk")
 
-print(pipeline)
+with mlflow.start_run():
+    mlflow.log_param("model_type", "logistic_regression")
+    mlflow.log_param("max_iter", 100)
+    mlflow.log_metric("accuracy", 0.85)
+    mlflow.log_metric("auc", 0.91)
 
-joblib.dump(pipeline, BASE_DIR / "test_pipeline.joblib")
-loaded_pipeline = joblib.load(BASE_DIR / "test_pipeline.joblib")
-print(loaded_pipeline)
-
-
-print(os.getcwd())
 
 
 
