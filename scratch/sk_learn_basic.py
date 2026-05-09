@@ -27,6 +27,12 @@ from sklearn.pipeline import Pipeline                   # the whole assembly lin
 from sklearn.preprocessing import StandardScaler, OneHotEncoder # transformation on machines
 from sklearn.linear_model import LogisticRegression     # the decision maker
 import pandas as pd                                     # to hold our tiny demo data
+import joblib
+import os
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).parent
 
 
 # Define which columns are which (placeholders - in a real project these come from your data)
@@ -65,39 +71,16 @@ pipeline = Pipeline(
 )
 
 
-# (Optional) Quick sanity check with a tiny made-up dataset
-# We don't need real data - just 3 rows to see the pipeline works.
+print(pipeline)
 
-if __name__ == "__main__":
-    # Simulate a few rows of incoming raw data (like what Datatroniq would see)
-    demo_data = pd.DataFrame({
-        "loan_amount": [10000, 20000, 15000],
-        "income": [50000, 70000, 60000],
-        "loan_program": ["A", "B", "A"],
-        "region": ["North", "South", "East"]
-    })
-
-    # We also need a dummy target variable (what we want to predict)
-    # e.g., whether the loan was repaid (1) or not (0)
-    y = [1, 0, 1]
-
-    print("Raw data before pipeline:")
-    print(demo_data)
-    print("\nTarget (y):", y)
-
-    # Fit the whole pipeline: the preprocessor learns the scaling parameters
-    # and the category mappings, then the LogisticRegression learns from the
-    # transformed data.
-    pipeline.fit(demo_data, y)
+joblib.dump(pipeline, BASE_DIR / "test_pipeline.joblib")
+loaded_pipeline = joblib.load(BASE_DIR / "test_pipeline.joblib")
+print(loaded_pipeline)
 
 
-    # Make a prediction on the same tiny dataset (just for demonstration)
-    predictions = pipeline.predict(demo_data)
-    print("\nPredictions:", predictions)
+print(os.getcwd())
 
-    # Show the internal steps
-    print("\nPipeline steps:")
-    print(pipeline.steps)
+
 
 
 
