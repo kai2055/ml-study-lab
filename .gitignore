@@ -1,2 +1,4 @@
-mlruns/ 
-mlruns,db 
+**/mlruns
+**/mlruns/
+**/mlruns.db
+
